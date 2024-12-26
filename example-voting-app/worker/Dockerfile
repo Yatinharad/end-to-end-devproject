@@ -9,21 +9,50 @@
 
 # build compiles the program for the builder's local platform
 #FROM --platform=${BUILDPLATFORM} mcr.microsoft.com/dotnet/sdk:7.0 AS build
+# FROM --platform=${BUILDPLATFORM:-linux/amd64} mcr.microsoft.com/dotnet/sdk:7.0 AS build
+# ARG TARGETPLATFORM
+# ARG TARGETARCH
+# ARG BUILDPLATFORM
+# RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+
+# WORKDIR /source
+# COPY *.csproj .
+# RUN dotnet restore -a $TARGETARCH
+
+# COPY . .
+# RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no-restore
+
+# # app image
+# FROM mcr.microsoft.com/dotnet/runtime:7.0
+# WORKDIR /app
+# COPY --from=build /app .
+# ENTRYPOINT ["dotnet", "Worker.dll"]
 FROM --platform=${BUILDPLATFORM:-linux/amd64} mcr.microsoft.com/dotnet/sdk:7.0 AS build
-ARG TARGETPLATFORM
-ARG TARGETARCH
-ARG BUILDPLATFORM
-RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+
+# Build arguments with default values
+ARG BUILDPLATFORM=linux/amd64
+ARG TARGETPLATFORM=linux/amd64
+ARG TARGETARCH=amd64
+
+RUN echo "Running on platform: $BUILDPLATFORM, building for $TARGETPLATFORM, architecture: $TARGETARCH"
 
 WORKDIR /source
-COPY *.csproj .
-RUN dotnet restore -a $TARGETARCH
 
-COPY . .
-RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no-restore
+# Copy project file and restore dependencies
+COPY *.csproj ./
+RUN dotnet restore --arch $TARGETARCH
 
-# app image
+# Copy source files and publish the app
+COPY . ./
+RUN dotnet publish -c Release -o /app --arch $TARGETARCH --self-contained false --no-restore
+
+# App image stage
 FROM mcr.microsoft.com/dotnet/runtime:7.0
+
 WORKDIR /app
-COPY --from=build /app .
+
+# Copy published files from the build stage
+COPY --from=build /app ./
+
+# Define the entry point for the application
 ENTRYPOINT ["dotnet", "Worker.dll"]
