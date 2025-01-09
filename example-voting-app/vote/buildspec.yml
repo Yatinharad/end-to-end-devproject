@@ -1,0 +1,32 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 975049911024.dkr.ecr.ap-south-1.amazonaws.com
+      
+      - export BUILD_NUMBER=${CODEBUILD_BUILD_NUMBER}
+      - echo Build starting
+      - git clone https://github.com/Yatinharad/end-to-end-devproject.git
+      - ls -l example-voting-app/kube-spec/
+  build:
+    commands:
+      - cd example-voting-app/vote
+      - echo Building the Docker image
+      - docker build -t vote-repo:${BUILD_NUMBER} .
+      - docker tag votecap:latest 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
+      - echo Pushing the Docker image to Amazon ECR
+      - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
+      - echo Build is successful
+    
+  post_build:
+    commands:
+      - echo Running update.sh script to update Kubernetes manifests
+      - cd ../kube-spec/
+      - chmod -R +rw ../kube-spec/
+      - cd ../update_script_1/
+      # - cd ../example-voting-app/update_script/
+      - chmod +x ./update-kube-spec.sh
+      # - chmod +x example-voting-app/update_script/update-kube-spec.sh
+      # - cd ../update_script/
+      - ./update-kube-spec.sh vote $BUILD_NUMBER
