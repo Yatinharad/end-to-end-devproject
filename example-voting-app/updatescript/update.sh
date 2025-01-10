@@ -27,7 +27,7 @@ DEPLOYMENT_FILES=(
 # Update and deploy each image
 for i in "${!ECR_REPO_URL[@]}"; do
   #IMAGE_NAME="${IMGE[$i]}"
-  ECR_IMAGE="${ECR_REPO_URL}:${IMAGE_TAG}"
+  ECR_IMAGE="${ECR_REPO_URL[$i]}:${IMAGE_TAG}"
   DEPLOYMENT_FILE="${DEPLOYMENT_FILES[$i]}"
 
   if [ -f "$DEPLOYMENT_FILE" ]; then
