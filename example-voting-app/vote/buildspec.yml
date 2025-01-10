@@ -17,13 +17,11 @@ phases:
       - docker tag vote-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
       - echo Pushing the Docker image to Amazon ECR
       - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
-      - cd ./end-to-end-devproject/example-voting-app
-      - cd example-voting-app/result
+      - cd ../result
       - docker build -t result-repo:{BUILD_NUMBER} .
       - docker tag result-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/resultcap:${BUILD_NUMBER}
       - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/resultcap:${BUILD_NUMBER}
-      - cd ..
-      - cd example-voting-app/worker
+      - cd ../worker
       - docker build -t worker-repo:{BUILD_NUMBER} .
       - docker tag worker-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap:${BUILD_NUMBER}
       - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap:${BUILD_NUMBER}
