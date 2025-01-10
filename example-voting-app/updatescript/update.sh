@@ -18,9 +18,9 @@ echo "Current directory: $(pwd)"
 IMAGE_TAG=${BUILD_NUMBER}  # Default to 'latest' if BUILD_NUMBER is not set
 #IMAGES=("votecap" "resultcap" "workercap")  # Array of image names
 DEPLOYMENT_FILES=(
-    "example-voting-app/k8s-specifications/vote-deployment.yaml"
-    "example-voting-app/k8s-specifications/result-deployment.yaml"
-    "example-voting-app/k8s-specifications/worker-deployment.yaml"
+    "./k8s-specifications/vote-deployment.yaml"
+    "./k8s-specifications/result-deployment.yaml"
+    "./k8s-specifications/worker-deployment.yaml"
 )  # Array of corresponding deployment files
 
 # Update and deploy each image
