@@ -1,7 +1,7 @@
 #!/bin/bash
 set -xe  # Enable debugging and stop execution on error
 
-git clone https://github.com/Yatinharad/end-to-end-devproject.git
+git clone https://$GITHUB_TOKEN@github.com/Yatinharad/end-to-end-devproject.git
 
 cd End-To-End-Deployment/example-voting-app || exit 1
 
