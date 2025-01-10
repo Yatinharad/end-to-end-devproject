@@ -33,4 +33,4 @@ phases:
       - chmod +rw -R ../k8s-specifications/ # Adjusted permissions to current directory
       - cd ../updatescript/
       - chmod +x ./update.sh
-      - ./update.sh 
+      - ./update.sh

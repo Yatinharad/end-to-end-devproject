@@ -10,7 +10,8 @@ ls -a end-to-end-devproject
 ECR_REPO_URL=(
      "975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap"
      "975049911024.dkr.ecr.ap-south-1.amazonaws.com/resultcap" 
-     "975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap")
+     "975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap"
+    )
  
 echo "Current directory: $(pwd)"
 
