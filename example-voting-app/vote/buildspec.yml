@@ -13,17 +13,17 @@ phases:
     commands:
       - cd example-voting-app/vote
       - echo Building the Docker image
-      - docker build -t vote-repo:${BUILD_NUMBER} .
-      - docker tag vote-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
+      - docker build -t vote-repo:latest .
+      - docker tag vote-repo:latest 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
       - echo Pushing the Docker image to Amazon ECR
       - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
       - cd ../result
-      - docker build -t result-repo:{BUILD_NUMBER} .
-      - docker tag result-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/resultcap:${BUILD_NUMBER}
+      - docker build -t result-repo:latest .
+      - docker tag result-repo:latest 975049911024.dkr.ecr.ap-south-1.amazonaws.com/resultcap:${BUILD_NUMBER}
       - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/resultcap:${BUILD_NUMBER}
       - cd ../worker
-      - docker build -t worker-repo:{BUILD_NUMBER} .
-      - docker tag worker-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap:${BUILD_NUMBER}
+      - docker build -t worker-repo:latest .
+      - docker tag worker-repo:latest 975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap:${BUILD_NUMBER}
       - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap:${BUILD_NUMBER}
       - echo Build is successful
   post_build:
