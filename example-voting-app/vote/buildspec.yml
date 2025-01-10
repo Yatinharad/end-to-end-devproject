@@ -7,11 +7,7 @@ phases:
       - export BUILD_NUMBER=${CODEBUILD_BUILD_NUMBER}
       - echo Build starting
       - git clone https://github.com/Yatinharad/end-to-end-devproject.git
-    
-          ls -l example-voting-app/k8s-specifications/;
-        else
-          echo "Directory does not exist: example-voting-app/k8s-specifications/" && exit 1;
-        fi
+      - ls -l example-voting-app/k8s-specifications/
   build:
     commands:
       - cd example-voting-app/vote
