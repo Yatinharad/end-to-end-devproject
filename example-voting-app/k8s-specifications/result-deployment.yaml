@@ -15,7 +15,7 @@ spec:
         app: result
     spec:
       containers:
-      - image: 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:620
+      - image: 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:621
         name: result
         ports:
         - containerPort: 80
