@@ -16,12 +16,20 @@ phases:
       - docker tag vote-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
       - echo Pushing the Docker image to Amazon ECR
       - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/votecap:${BUILD_NUMBER}
+      - cd example-voting-app/result
+      - docker build -t result-repo:{BUILD_NUMBER} .
+      - docker tag result-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/resultcap:${BUILD_NUMBER}
+      - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/resultcap:${BUILD_NUMBER}
+      - cd example-voting-app/worker
+      - docker build -t worker-repo:{BUILD_NUMBER} .
+      - docker tag worker-repo:${BUILD_NUMBER} 975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap:${BUILD_NUMBER}
+      - docker push 975049911024.dkr.ecr.ap-south-1.amazonaws.com/workercap:${BUILD_NUMBER}
       - echo Build is successful
   post_build:
     commands:
       - echo Running update.sh script to update Kubernetes manifests
-      - cd ../kube-spec/
-      - chmod +rw -R . # Adjusted permissions to current directory
-      - cd ../update_script_1/
-      - chmod +x ./update-kube-spec.sh
-      - ./update-kube-spec.sh vote $BUILD_NUMBER
+      - cd ../k8s-specifications/
+      - chmod +rw -R ../k8s-specifications/ # Adjusted permissions to current directory
+      - cd ../updatescript/
+      - chmod +x ./update.sh
+      - ./update.sh 
