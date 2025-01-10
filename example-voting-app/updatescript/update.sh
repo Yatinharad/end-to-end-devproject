@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe  # Enable debugging and stop execution on error
+set -x  # Enable debugging and stop execution on error
 
 git clone https://$GITHUB_TOKEN@github.com/Yatinharad/end-to-end-devproject.git
 
