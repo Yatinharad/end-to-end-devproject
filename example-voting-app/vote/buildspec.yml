@@ -1,19 +1,13 @@
 version: 0.2
 phases:
   pre_build:
-  commands:
-    - echo Logging in to Amazon ECR
-    - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 975049911024.dkr.ecr.ap-south-1.amazonaws.com
-    
-    - export BUILD_NUMBER=${CODEBUILD_BUILD_NUMBER}
-    - echo Build starting with build number $BUILD_NUMBER
-    
-    - echo Cloning the repository
-    - git clone https://github.com/Yatinharad/end-to-end-devproject.git
-    
-    - echo Listing directory structure
-    - cd end-to-end-devproject || exit 1  # Ensure the repository was cloned successfully
-    - ls -l example-voting-app/k8s-specifications/ || echo "Directory not found"
+    commands:
+      - echo Logging in to Amazon ECR
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 975049911024.dkr.ecr.ap-south-1.amazonaws.com
+      - export BUILD_NUMBER=${CODEBUILD_BUILD_NUMBER}
+      - echo Build starting
+      - git clone https://github.com/Yatinharad/end-to-end-devproject.git
+      - ls -l example-voting-app/k8s-specifications/
 
   build:
     commands:
