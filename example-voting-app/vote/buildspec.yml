@@ -6,7 +6,7 @@ phases:
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 975049911024.dkr.ecr.ap-south-1.amazonaws.com
       - export BUILD_NUMBER=${CODEBUILD_BUILD_NUMBER}
       - echo Build starting
-      - git clone https://github.com/Yatinharad/end-to-end-devproject.git
+      - git clone https://$GITHUB_TOKEN@github.com/Yatinharad/end-to-end-devproject.git
       - ls -R
       - ls -l example-voting-app/k8s-specifications/
   build:
